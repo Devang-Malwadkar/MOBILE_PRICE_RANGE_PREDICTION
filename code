@@ -14,3 +14,246 @@ warnings.filterwarnings('ignore')
 
 #MOUNT THE DRIVE AND IMPORT THE DATASET
 dataset = pd.read_csv('/content/drive/MyDrive/Colab Notebooks/data_mobile_price_range.csv')
+
+#SUMMARY OF DATA
+dataset.head()
+
+#DATA INFORMATION
+dataset.info()
+
+#Getting the shape of dataset with rows and columns
+dataset.shape
+
+ THE DUPLICATE VALUES
+len(dataset[dataset.duplicated()])
+
+#GETTING THE NULL VALUES 
+dataset.isnull().sum()
+
+#GRAPHICALLY SHOWING THE PERCENTAGE OF MISSING VALUES 
+missing = pd.DataFrame((dataset.isnull().sum())*100/dataset.shape[0]).reset_index()
+plt.figure(figsize=(16,5))
+ax = sns.pointplot(x='index', y=0, data=missing)
+plt.xticks(rotation=90, fontsize=7)
+plt.title("Percentage of Missing values")
+plt.ylabel("PERCENTAGE")
+plt.show()
+
+#DESCRIBE THE DATASET TO GET THE VALUES OF EACH SPECIFICATION
+dataset.describe().T
+
+#LOOKING FOR THE UNIQUE
+dataset.nunique()
+
+#GETTING THE RANGE OF PRICE AND ITS VALUE COUNT
+dataset.price_range.value_counts()
+
+# Dataset Describe
+dataset.describe(include='all').T# Dataset Describe
+dataset.describe(include='all').T
+
+#Getting all the columns
+dataset.columns
+
+# Visualizing the missing values
+plt.figure(figsize=(15,10))
+sns.heatmap(dataset.corr(),annot=True,cmap=plt.cm.Accent_r)
+plt.show()
+
+
+# Check Unique Values for each variable.
+for i in dataset.columns.tolist():
+  print("No. of unique values in ",i,"is",dataset[i].nunique(),".")
+  
+  pd.pivot_table(dataset, index='price_range', values=['battery_power',  'clock_speed' , 'fc','int_memory', 'mobile_wt', 
+                                                       'pc', 'px_height','px_width','ram', 'sc_h', 'sc_w', 'talk_time']).T
+                                                       
+                                                       
+                                                       # Write your code to make your dataset analysis ready.
+data_num = dataset[['battery_power',  'clock_speed' , 'fc','int_memory','m_dep', 'mobile_wt','n_cores', 'pc',
+                      'px_height','px_width','ram', 'sc_h', 'sc_w', 'talk_time']]
+
+data_cat = dataset[['blue','dual_sim', 'four_g','three_g','touch_screen', 'wifi']]
+
+
+
+# Chart - 1 visualization code
+# Dependent Column Value Counts
+print(dataset.price_range.value_counts())
+print(" ")
+# Dependent Variable Column Visualization
+dataset['price_range'].value_counts().plot(kind='pie',
+                              figsize=(10,5),
+                              autopct="%1.1f%%",
+                               startangle=90,
+                               shadow=True,
+                               labels=["low cost(0)", "medium cost(1)", "high cost(2)", "very high cost(3)"],
+                               colors=['blue','red','green','cyan'],
+                               explode=[0,0,0,0]
+                              )
+                              
+                              
+                              
+                              
+                              # Chart - 2 visualization code
+# classes
+sns.countplot(dataset['price_range'])
+plt.show()
+
+
+
+# Chart - 3 visualization code
+for i in data_num.columns:
+    plt.hist(dataset[i],color='#EBA532')
+    plt.title(i)
+    plt.show()
+    
+    
+    
+    # Write your code to make your dataset analysis ready.
+data_num = dataset[['battery_power',  'clock_speed' , 'fc','int_memory','m_dep', 'mobile_wt','n_cores', 'pc',
+                      'px_height','px_width','ram', 'sc_h', 'sc_w', 'talk_time']]
+
+data_cat = dataset[['blue','dual_sim', 'four_g','three_g','touch_screen', 'wifi']]
+
+
+
+data_num
+
+data_cat
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Chart - 4 visualization code DATA_CAT.CLOUMN
+for i in data_cat.columns:
+    ax = sns.barplot(x=data_cat[i].value_counts().index, y=data_cat[i].value_counts())
+    ax.set_title(i)
+    plt.show()
+    
+    
+    
+for i in data_cat:
+    print(pd.pivot_table(dataset,index='price_range',columns=i, values='ram'))
+    print("=="*20)
+    
+    # Chart - 5 visualization code
+# dealing with outliers values
+for i in data_num.columns:
+    sns.boxplot(data_num[i],color='#AEAB0F')
+    plt.title(i)
+    plt.show()
+    
+    
+    
+    binary_features = [ 'four_g', 'three_g']
+    
+    
+    
+    
+# Chart - 6 visualization code
+# Plot of binary features against price range
+
+for col in binary_features:
+  fig, (ax1, ax2) = plt.subplots(ncols = 2, figsize = (15, 6))
+
+  dataset[col].value_counts().plot.pie (autopct='%1.1f%%', ax = ax1, shadow=True, labeldistance=None)
+  ax1.set_title('Distribution by price range')
+  ax1.legend(['Support', 'Does not Support'])
+  sns.countplot(x = col, hue = 'price_range', data = dataset, ax = ax2, color = 'Red')
+  ax2.set_title('Distribution by price range')
+  ax2.set_xlabel(col)
+  ax2.legend(['Low Cost', 'Medium Cost', 'High Cost', 'Very High Cost'])
+  ax2.set_xticklabels(['Does not Support', 'Support'])
+  
+  
+  
+  #batter power VS price_range
+# Chart - 7 visualization code
+sns.boxplot(x="price_range", y="battery_power",data=dataset)
+
+
+# Chart - 8 visualization code
+plt.figure(figsize=(10,6))
+dataset['fc'].hist(alpha=0.5,color='blue',label='Front camera')
+dataset['pc'].hist(alpha=0.5,color='red',label='Primary camera')
+plt.legend()
+plt.xlabel('MegaPixels')
+
+
+# Chart - 9 visualization code
+plt.figure(1)
+plt.subplot(121)
+sns.countplot(x = 'four_g',hue= 'price_range',data  = dataset)
+plt.legend()
+plt.subplot(122)
+sns.countplot(x = 'three_g',hue= 'price_range',data  = dataset)
+plt.legend()
+
+
+
+# Chart - 10 visualization code
+sns.boxplot(x = 'n_cores',y = 'clock_speed',hue = 'price_range',data = dataset)
+plt.legend()
+plt.show()
+
+
+
+# Chart - 11 visualization code
+#Visualise the relationship between the two independent variables and the depenedent variable using scatterplots
+sns.pairplot(dataset , y_vars = 'battery_power' , x_vars = 'price_range' , size = 5)
+
+
+#WRITING THE CODE TO ANALYSIS THE DATA 
+#CREATING THE COPY OF DATASET AND NAMING IT TO df
+df = dataset.copy()
+#checking the mobile price range belongs to 0
+print("number of mobile belong to the price_range 0 is :", len(df[df['price_range']==0]))
+#checking the mobile price range belongs to 1
+print("number of mobile belong to the price_range 1 is :", len(df[df['price_range']==1]))
+#checking the mobile price range belongs to 2
+print("number of mobile belong to the price_range 2 is :", len(df[df['price_range']==2]))
+#checking the mobile price range belongs to 3
+print("number of mobile belong to the price_range 3 is :", len(df[df['price_range']==3]))
+
+
+#getting the value count of price range
+df['price_range'].value_counts()
+
+
+#mobile phone grouped by 4g support or not support
+df.groupby('four_g')['price_range'].value_counts().reset_index(name='Count').sort_values(["Count"],ascending = False)
+
+
+#mobile phone grouped by 4g support or not support and plotting the graph
+df.groupby('four_g')['price_range'].plot()
+df.groupby('four_g')['price_range'].value_counts().reset_index(name='Count').sort_values(["Count"],ascending = False).plot()
+plt.show()
+
+
+#assign the numerical coulmn to variavle
+numerical_columns=list(dataset.select_dtypes(['int64','float64']).columns)
+numerical_features=pd.Index(numerical_columns)
+numerical_features
+
+
+#printing displots to analyze the distribution of all numerical features
+for col in numerical_features:
+  plt.figure(figsize=(5,2))
+  sns.distplot(x=dataset[col])
+  plt.xlabel(col)
+plt.show()
+
+
+dataset.corr().T
+
+
+## plot the Correlation matrix
+plt.figure(figsize=(15,8))
+correlation=dataset.corr()
+mask = np.triu(np.ones_like(correlation, dtype=bool))
+sns.heatmap((correlation),mask=mask, annot=True,cmap='coolwarm')
+
+
+
+
