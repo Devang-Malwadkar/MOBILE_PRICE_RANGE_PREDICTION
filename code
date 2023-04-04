@@ -1,0 +1,16 @@
+#let's import the modules
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy.stats import norm
+from sklearn.preprocessing import StandardScaler
+from scipy import stats
+%matplotlib inline
+
+import warnings
+warnings.filterwarnings('ignore')
+
+#MOUNT THE DRIVE AND IMPORT THE DATASET
+dataset = pd.read_csv('/content/drive/MyDrive/Colab Notebooks/data_mobile_price_range.csv')
